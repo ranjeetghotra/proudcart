@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Rating extends Model
 {
@@ -33,6 +34,11 @@ class Rating extends Model
     public static function rating($productid){
         $stars = Rating::where('product_id',$productid)->avg('rating');
         $stars = number_format((float)$stars, 1, '.', '');
+        return $stars;
+    }
+    public static function ratingAvg($productid){
+        $stars = Rating::select(DB::raw('CAST(AVG(rating * 20) as INT ) as rating'))->where('product_id',$productid)->first()->rating;
+        $stars = $stars ?: 0;
         return $stars;
     }
 

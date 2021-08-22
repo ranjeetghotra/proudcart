@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use JWTAuth;
 use Carbon\Carbon;
 use App\Classes\GeniusMailer;
 use App\Models\Generalsetting;
@@ -235,6 +236,13 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public static function getJwtUser()
+    {
+        $user = JWTAuth::user()->toArray();
+        $readable = ["id", "name", "photo", "zip", "city", "country", "address", "date", "phone", "email"];
+        return array_intersect_key($user, array_flip($readable));
     }
 
 }

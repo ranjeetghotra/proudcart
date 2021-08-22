@@ -36,12 +36,13 @@
 @endif
 
 @php
-  $withSelectedAtrributePrice = $attrPrice+$productt->price;
+  // $withSelectedAtrributePrice = $attrPrice+$productt->price;
+  $withSelectedAtrributePrice = $attrPrice;
   $withSelectedAtrributePrice = round(($withSelectedAtrributePrice) * $curr->value,2);
 
 @endphp
 
-
+{{$withSelectedAtrributePrice}}
 
 <div class="breadcrumb-area">
   <div class="container">
