@@ -23,6 +23,7 @@ Route::group(['middleware' => ['jwt.verify', 'cors']], function() {
     Route::get('subcategory/{sid}', 'Api\CategoryController@Childcategory');
     Route::get('product', 'Api\ProductController@index');
     Route::get('product/{id}', 'Api\ProductController@product');
+    Route::get('products', 'Api\ProductController@products');
     Route::get('home', 'Api\ProductController@index');
 });
 /*

@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\ProductClick;
 use App\Models\Rating;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -52,6 +53,27 @@ class ProductController extends Controller
         $product_click->save();
         return response(["status" => true, 'data' => $productt]);
     }
+    public function products(Request $request)
+    {
+        try {
+            $selectable = ['id', 'name', 'thumbnail', 'price', 'previous_price', 'attributes', 'user_id'];
+            $builder = Product::where('status', '=', 1)->select($selectable);
+            if ($request->query('category')) {
+                $builder->where('category_id', $request->query('category'));
+            }
+            if ($request->query('search')) {
+                $builder->where('name', 'LIKE', "%{$request->query('search')}%");
+            }
+            $productt = $builder->get();
+            foreach ($productt as $item) {
+                $this->setCharges($item);
+                $item->rating = Rating::ratingAvg($item->id);
+            }
+            return response(["status" => true, 'data' => $productt]);
+        } catch (Exception $e) {
+            return response(["status" => false, 'err' => $e->getMessage()]);
+        }
+    }
     private function getRatings($products)
     {
         foreach ($products as $data) {
@@ -90,7 +112,6 @@ class ProductController extends Controller
                         // only the first price counts
                         break;
                     }
-
                 }
             }
         }

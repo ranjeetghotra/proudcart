@@ -37,7 +37,7 @@ class Rating extends Model
         return $stars;
     }
     public static function ratingAvg($productid){
-        $stars = Rating::select(DB::raw('CAST(AVG(rating * 20) as INT ) as rating'))->where('product_id',$productid)->first()->rating;
+        $stars = Rating::select(DB::raw('CAST(AVG(rating * 20) as UNSIGNED ) as rating'))->where('product_id',$productid)->first()->rating;
         $stars = $stars ?: 0;
         return $stars;
     }
