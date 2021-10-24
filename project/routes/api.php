@@ -17,6 +17,7 @@ Route::post('login', 'Api\UserController@login')->name('api.user.login');
 
 Route::group(['middleware' => ['jwt.verify', 'cors']], function() {
     Route::get('user', 'Api\UserController@user');
+    Route::post('user', 'Api\UserController@saveuser');
     Route::get('category', 'Api\CategoryController@index');
     Route::get('category/feature', 'Api\CategoryController@feature');
     Route::get('category/{cid}', 'Api\CategoryController@Subcategory');
@@ -25,6 +26,9 @@ Route::group(['middleware' => ['jwt.verify', 'cors']], function() {
     Route::get('product/{id}', 'Api\ProductController@product');
     Route::get('products', 'Api\ProductController@products');
     Route::get('home', 'Api\ProductController@index');
+    
+    Route::get('order', 'Api\OrderController@index');
+    Route::get('order/{id}', 'Api\OrderController@order');
 });
 /*
 Route::group(['middleware' => ['jwt.verify']], function() {

@@ -50,6 +50,16 @@ class UserController extends Controller
     }
     public function user(Request $request)
     {
-        return response(['status' => true, 'data' => User::getJwtUser()]);
+        return response(['status' => true, 'data' => User::where('id', '=', $request->user->id)->firstOrFail()]);
+    }
+    public function saveuser(Request $request)
+    {
+        $data['name'] = $request->name;
+        $data['address'] = $request->address;
+        $data['city'] = $request->city;
+        $data['country'] = $request->country;
+        $data['zip'] = $request->zip;
+        User::where('id', $request->user->id)->update($data);
+        return response(['status' => true, 'data' => $data]);
     }
 }
